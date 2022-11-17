@@ -40,7 +40,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-
+ADC_HandleTypeDef hadc1;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -96,7 +96,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  test
+	  HAL_ADC_Start(&hadc1);
+	  HAL_ADC_PollForConversion(&hadc1, 1);
+	  HAL_ADC_GetValue(&hadc1);
+
+	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_10);
+	  HAL_Delay(500);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
