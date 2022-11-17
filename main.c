@@ -41,6 +41,8 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
+uint16_t temp_raw;
+uint16_t temp;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -98,9 +100,11 @@ int main(void)
     /* USER CODE END WHILE */
 	  HAL_ADC_Start(&hadc1);
 	  HAL_ADC_PollForConversion(&hadc1, 1);
-	  HAL_ADC_GetValue(&hadc1);
-
-	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_10);
+	  temp_raw = (HAL_ADC_GetValue(&hadc1)/4096)*5;
+	  temp = 3636/(logf(temp_raw/((5)*pow(2.718, -3636/25)))/logf(2.718));
+	  if (temp > 26) {
+		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_10);
+	  }
 	  HAL_Delay(500);
     /* USER CODE BEGIN 3 */
   }
